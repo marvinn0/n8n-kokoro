@@ -26,5 +26,5 @@ EXPOSE 5678
 # Switch back to n8n user
 USER node
 
-# Temporarily try to find the 'node' executable
-CMD ["/bin/sh", "-c", "which node && ls -l /usr/local/bin/node /opt/node*/bin/node /usr/bin/node"]
+# Temporarily try to find the 'node' executable - more explicit shell
+CMD ["sh", "-c", "which node && ls -l /usr/local/bin/node /opt/node*/bin/node /usr/bin/node"]
