@@ -20,14 +20,11 @@ RUN pip3 install --break-system-packages yt-dlp
 # Set environment for binary file handling
 ENV N8N_DEFAULT_BINARY_DATA_MODE=filesystem
 
-# Explicitly add Node.js to PATH
-ENV PATH="/usr/local/bin:$PATH"
-
 # Expose n8n port
 EXPOSE 5678
 
 # Switch back to n8n user
 USER node
 
-# Start n8n with the full path
-CMD ["node", "/usr/local/lib/node_modules/n8n/bin/n8n", "start"]
+# Temporarily try to find the 'node' executable
+CMD ["/bin/sh", "-c", "which node && ls -l /usr/local/bin/node /opt/node*/bin/node /usr/bin/node"]
