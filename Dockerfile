@@ -26,5 +26,5 @@ EXPOSE 5678
 # Switch back to n8n user
 USER node
 
-# Start n8n
-CMD ["n8n"]
+# Start n8n with the full path
+CMD ["node", "/usr/local/lib/node_modules/n8n/bin/n8n", "start"]
