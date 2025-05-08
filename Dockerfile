@@ -1,8 +1,10 @@
+# Use official n8n base image
 FROM n8nio/n8n:latest
 
-# Switch to root to install dependencies
+# Switch to root to install packages
 USER root
 
+# Install system dependencies
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
@@ -10,11 +12,19 @@ RUN apk add --no-cache \
     gcc \
     musl-dev \
     curl \
-    git && \
-    pip3 install --break-system-packages yt-dlp
+    git
 
-# Switch back to node user (n8n expects this)
+# Install yt-dlp with override for PEP 668
+RUN pip3 install --break-system-packages yt-dlp
+
+# Set environment for binary file handling
+ENV N8N_DEFAULT_BINARY_DATA_MODE=filesystem
+
+# Expose n8n port
+EXPOSE 5678
+
+# Switch back to n8n user
 USER node
 
-# Ensure n8n starts
-CMD ["n8n"]
+# Temporarily try to find the 'node' executable - more explicit shell
+CMD ["sh", "-c", "which node && ls -l /usr/local/bin/node /opt/node*/bin/node /usr/bin/node"]
