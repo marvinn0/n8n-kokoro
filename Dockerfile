@@ -1,6 +1,8 @@
 FROM n8nio/n8n:latest
 
-# Install system dependencies
+# Switch to root to install packages
+USER root
+
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
@@ -11,5 +13,7 @@ RUN apk add --no-cache \
     git && \
     pip3 install --break-system-packages yt-dlp
 
-# Use the default n8n entrypoint
+# Switch back to default n8n user
+USER node
+
 CMD ["n8n"]
